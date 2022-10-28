@@ -6,14 +6,20 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { AddMachineSpecificationBodyDto } from '../dtos/add-machine-specification.dto';
+import { BaseMachineSpecificationDto } from '../dtos/base-machine-specification.dto';
+import { DeleteMachineSpecificationParamDto } from '../dtos/delete-machine-specification.dto';
 import {
   FindMachineSpecificationByIdParamDto,
   FindMachineSpecificationByIdResponseDto,
 } from '../dtos/find-machine-specification.dto';
-import { GetAllMachineSpecificatSionsResponseDto } from '../dtos/get-all-machine-specifications.dto';
+import {
+  GetAllMachineSpecificationsQueryDto,
+  GetAllMachineSpecificatSionsResponseDto,
+} from '../dtos/get-all-machine-specifications.dto';
 import {
   UpdateMachineSpecificationBodyDto,
   UpdateMachineSpecificationParamDto,
@@ -22,10 +28,59 @@ import {
 
 @Controller('machine-specification')
 export class MachineSpecificationController {
+  private sampleMachineSpecification: BaseMachineSpecificationDto = {
+    id: 'guid',
+    name: 'My Battlestation',
+    type: 'DIY',
+    manufacturer: '',
+    model: '',
+    cpu: {
+      manufacturer: 'AMD',
+      model: 'Ryzen 3600',
+      cores: 6,
+      frequency: 4200,
+    },
+    gpu: {
+      manufacturer: 'Nvidia',
+      model: 'RTX 3600 Ti',
+      memory: 8,
+    },
+    motherboard: {
+      manufacturer: 'MSI',
+      model: 'B350 Tomahawk',
+    },
+    ramSticks: [
+      {
+        manufacturer: 'Corsair',
+        model: 'Ballistix',
+        frequency: 3600,
+      },
+      {
+        manufacturer: 'Corsair',
+        model: 'Ballistix',
+        frequency: 3600,
+      },
+    ],
+    storageDrives: [
+      {
+        manufacturer: 'Adata',
+        model: 'SPG 8200',
+        type: 'SSD',
+        size: 512,
+      },
+    ],
+  };
+
   @Get()
   @ApiResponse({ status: 200, type: GetAllMachineSpecificatSionsResponseDto })
-  async getAll(): Promise<GetAllMachineSpecificatSionsResponseDto> {
-    return [];
+  async getAllMachineSpecifications(
+    @Query() query: GetAllMachineSpecificationsQueryDto,
+  ): Promise<GetAllMachineSpecificatSionsResponseDto> {
+    return {
+      page: query.page,
+      hasNext: false,
+      items: [this.sampleMachineSpecification],
+    };
   }
 
   @Get('/:id')
@@ -34,7 +89,7 @@ export class MachineSpecificationController {
   async find(
     @Param() param: FindMachineSpecificationByIdParamDto,
   ): Promise<FindMachineSpecificationByIdResponseDto> {
-    return {} as any;
+    return { ...this.sampleMachineSpecification, ...{ id: param.id } };
   }
 
   @Post()
@@ -51,15 +106,14 @@ export class MachineSpecificationController {
     @Param() param: UpdateMachineSpecificationParamDto,
     @Body() body: UpdateMachineSpecificationBodyDto,
   ): Promise<UpdateMachineSpecificationResponseDto> {
-    return {} as any;
+    return { ...body, ...{ id: param.id } };
   }
 
   @Delete('/:id')
   @ApiResponse({ status: 200, type: UpdateMachineSpecificationResponseDto })
   async deleteMachineSpecification(
-    @Param() param: UpdateMachineSpecificationParamDto,
-    @Body() body: UpdateMachineSpecificationBodyDto,
-  ): Promise<UpdateMachineSpecificationResponseDto> {
-    return {} as any;
+    @Param() param: DeleteMachineSpecificationParamDto,
+  ): Promise<void> {
+    return;
   }
 }
