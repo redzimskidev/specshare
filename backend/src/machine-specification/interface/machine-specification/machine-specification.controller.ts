@@ -11,6 +11,7 @@ import {
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { ApiResponse } from '@nestjs/swagger';
 import { AddMachineSpecificationCommand } from 'src/machine-specification/application/add-machine-specification/add-machine-specification.command';
+import { DeleteMachineSpecificationCommand } from 'src/machine-specification/application/delete-machine-specification.command/delete-machine-specification.command';
 import { FindMachineSpecificationQuery } from 'src/machine-specification/application/find-machine-specification/find-machine-specification.query';
 import { GetAllMachineSpecificationsQuery } from 'src/machine-specification/application/get-all-machine-specifications/get-all-machine-specifications.query';
 import { UpdateMachineSpecificationCommand } from 'src/machine-specification/application/update-machine-specification/update-machine-specification.command';
@@ -40,48 +41,6 @@ export class MachineSpecificationController {
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
   ) {}
-  private sampleMachineSpecification: BaseMachineSpecificationDto = {
-    id: 'guid',
-    name: 'My Battlestation',
-    type: 'DIY',
-    manufacturer: '',
-    model: '',
-    cpu: {
-      manufacturer: 'AMD',
-      model: 'Ryzen 3600',
-      cores: 6,
-      frequency: 4200,
-    },
-    gpu: {
-      manufacturer: 'Nvidia',
-      model: 'RTX 3600 Ti',
-      memory: 8,
-    },
-    motherboard: {
-      manufacturer: 'MSI',
-      model: 'B350 Tomahawk',
-    },
-    ramSticks: [
-      {
-        manufacturer: 'Corsair',
-        model: 'Ballistix',
-        frequency: 3600,
-      },
-      {
-        manufacturer: 'Corsair',
-        model: 'Ballistix',
-        frequency: 3600,
-      },
-    ],
-    storageDrives: [
-      {
-        manufacturer: 'Adata',
-        model: 'SPG 8200',
-        type: 'SSD',
-        size: 512,
-      },
-    ],
-  };
 
   @Get()
   @ApiResponse({ status: 200, type: GetAllMachineSpecificatSionsResponseDto })
@@ -149,6 +108,6 @@ export class MachineSpecificationController {
   async deleteMachineSpecification(
     @Param() param: DeleteMachineSpecificationParamDto,
   ): Promise<void> {
-    return;
+    this.commandBus.execute(new DeleteMachineSpecificationCommand(param.id));
   }
 }

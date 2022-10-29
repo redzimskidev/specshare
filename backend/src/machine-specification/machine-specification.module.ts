@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { AddMachineSpecificationHandler } from './application/add-machine-specification/add-machine-specification.handler';
+import { DeleteMachineSpecificationHandler } from './application/delete-machine-specification.command/delete-machine-specification.handler';
 import { FindMachineSpecificationHandler } from './application/find-machine-specification/find-machine-specification.handler';
 import { GetAllMachineSpecificationsHandler } from './application/get-all-machine-specifications/get-all-machine-specifications.handler';
 import { UpdateMachineSpecificationHandler } from './application/update-machine-specification/update-machine-specification.handler';
@@ -14,6 +15,7 @@ const QUERY_HANDLERS = [
 const COMMAND_HANDLERS = [
   AddMachineSpecificationHandler,
   UpdateMachineSpecificationHandler,
+  DeleteMachineSpecificationHandler,
 ];
 @Module({
   imports: [CqrsModule],
