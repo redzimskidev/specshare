@@ -8,7 +8,9 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { ApiResponse } from '@nestjs/swagger';
+import { GetAllMachineSpecificationsQuery } from 'src/machine-specification/application/get-all-machine-specifications/get-all-machine-specifications.query';
 import { AddMachineSpecificationBodyDto } from '../dtos/add-machine-specification.dto';
 import { BaseMachineSpecificationDto } from '../dtos/base-machine-specification.dto';
 import { DeleteMachineSpecificationParamDto } from '../dtos/delete-machine-specification.dto';
@@ -28,6 +30,10 @@ import {
 
 @Controller('machine-specification')
 export class MachineSpecificationController {
+  constructor(
+    private readonly commandBus: CommandBus,
+    private readonly queryBus: QueryBus,
+  ) {}
   private sampleMachineSpecification: BaseMachineSpecificationDto = {
     id: 'guid',
     name: 'My Battlestation',
@@ -76,11 +82,9 @@ export class MachineSpecificationController {
   async getAllMachineSpecifications(
     @Query() query: GetAllMachineSpecificationsQueryDto,
   ): Promise<GetAllMachineSpecificatSionsResponseDto> {
-    return {
-      page: query.page,
-      hasNext: false,
-      items: [this.sampleMachineSpecification],
-    };
+    return this.queryBus.execute(
+      new GetAllMachineSpecificationsQuery(query.page, query.pageSize),
+    );
   }
 
   @Get('/:id')
