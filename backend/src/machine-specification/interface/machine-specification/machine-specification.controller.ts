@@ -10,6 +10,7 @@ import {
 } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { ApiResponse } from '@nestjs/swagger';
+import { AddMachineSpecificationCommand } from 'src/machine-specification/application/add-machine-specification/add-machine-specification.command';
 import { FindMachineSpecificationQuery } from 'src/machine-specification/application/find-machine-specification/find-machine-specification.query';
 import { GetAllMachineSpecificationsQuery } from 'src/machine-specification/application/get-all-machine-specifications/get-all-machine-specifications.query';
 import { AddMachineSpecificationBodyDto } from '../dtos/add-machine-specification.dto';
@@ -100,9 +101,21 @@ export class MachineSpecificationController {
   @Post()
   @ApiResponse({ status: 201 })
   async addMachineSpecification(
-    @Body() Body: AddMachineSpecificationBodyDto,
+    @Body() body: AddMachineSpecificationBodyDto,
   ): Promise<void> {
-    return;
+    this.commandBus.execute(
+      new AddMachineSpecificationCommand(
+        body.name,
+        body.type,
+        body.manufacturer,
+        body.model,
+        body.cpu,
+        body.gpu,
+        body.motherboard,
+        body.ramSticks,
+        body.storageDrives,
+      ),
+    );
   }
 
   @Put('/:id')
