@@ -1,6 +1,9 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { GetAllMachineSpecificatSionsResponseDto } from 'src/machine-specification/interface/dtos/get-all-machine-specifications.dto';
-import { GetAllMachineSpecificationsQuery } from './get-all-machine-specifications.query';
+
+export class GetAllMachineSpecificationsQuery {
+  constructor(public readonly page: number, public readonly pageSize: number) {}
+}
 
 @QueryHandler(GetAllMachineSpecificationsQuery)
 export class GetAllMachineSpecificationsHandler

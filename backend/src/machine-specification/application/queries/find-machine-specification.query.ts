@@ -1,7 +1,9 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { FindMachineSpecificationResponseDto } from 'src/machine-specification/interface/dtos/find-machine-specification.dto';
-import { FindMachineSpecificationQuery } from './find-machine-specification.query';
 
+export class FindMachineSpecificationQuery {
+  constructor(public id: string) {}
+}
 @QueryHandler(FindMachineSpecificationQuery)
 export class FindMachineSpecificationHandler
   implements IQueryHandler<FindMachineSpecificationQuery>

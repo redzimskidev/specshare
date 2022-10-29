@@ -1,3 +1,5 @@
+import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { UpdateMachineSpecificationResponseDto } from 'src/machine-specification/interface/dtos/update-machine-specification.dto';
 import {
   BaseMachineSpecificationModel,
   CpuModel,
@@ -32,5 +34,16 @@ export class UpdateMachineSpecificationCommand extends BaseMachineSpecificationM
       ramSticks,
       storageDrives,
     );
+  }
+}
+
+@CommandHandler(UpdateMachineSpecificationCommand)
+export class UpdateMachineSpecificationHandler
+  implements ICommandHandler<UpdateMachineSpecificationCommand>
+{
+  async execute(
+    command: UpdateMachineSpecificationCommand,
+  ): Promise<UpdateMachineSpecificationResponseDto> {
+    return command;
   }
 }

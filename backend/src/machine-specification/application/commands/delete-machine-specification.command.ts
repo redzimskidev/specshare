@@ -1,6 +1,8 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { DeleteMachineSpecificationCommand } from './delete-machine-specification.command';
 
+export class DeleteMachineSpecificationCommand {
+  constructor(public id: string) {}
+}
 @CommandHandler(DeleteMachineSpecificationCommand)
 export class DeleteMachineSpecificationHandler
   implements ICommandHandler<DeleteMachineSpecificationCommand>

@@ -10,11 +10,11 @@ import {
 } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { ApiResponse } from '@nestjs/swagger';
-import { AddMachineSpecificationCommand } from 'src/machine-specification/application/add-machine-specification/add-machine-specification.command';
-import { DeleteMachineSpecificationCommand } from 'src/machine-specification/application/delete-machine-specification.command/delete-machine-specification.command';
-import { FindMachineSpecificationQuery } from 'src/machine-specification/application/find-machine-specification/find-machine-specification.query';
-import { GetAllMachineSpecificationsQuery } from 'src/machine-specification/application/get-all-machine-specifications/get-all-machine-specifications.query';
-import { UpdateMachineSpecificationCommand } from 'src/machine-specification/application/update-machine-specification/update-machine-specification.command';
+import { AddMachineSpecificationCommand } from 'src/machine-specification/application/commands/add-machine-specification.command';
+import { DeleteMachineSpecificationCommand } from 'src/machine-specification/application/commands/delete-machine-specification.command';
+import { FindMachineSpecificationQuery } from 'src/machine-specification/application/queries/find-machine-specification.query';
+import { GetAllMachineSpecificationsQuery } from 'src/machine-specification/application/queries/get-all-machine-specifications.query';
+import { UpdateMachineSpecificationCommand } from 'src/machine-specification/application/commands/update-machine-specification.command';
 import {
   AddMachineSpecificationBodyDto,
   AddMachineSpecificationResponseDto,

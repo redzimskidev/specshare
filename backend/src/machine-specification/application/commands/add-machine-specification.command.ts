@@ -1,4 +1,6 @@
+import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { OmitType } from '@nestjs/swagger';
+import { AddMachineSpecificationResponseDto } from 'src/machine-specification/interface/dtos/add-machine-specification.dto';
 import {
   BaseMachineSpecificationModel,
   CpuModel,
@@ -33,5 +35,16 @@ export class AddMachineSpecificationCommand extends OmitType(
     this.motherboard = motherboard;
     this.ramSticks = ramSticks;
     this.storageDrives = storageDrives;
+  }
+}
+
+@CommandHandler(AddMachineSpecificationCommand)
+export class AddMachineSpecificationHandler
+  implements ICommandHandler<AddMachineSpecificationCommand>
+{
+  async execute(
+    command: AddMachineSpecificationCommand,
+  ): Promise<AddMachineSpecificationResponseDto> {
+    return { ...command, id: '' };
   }
 }
