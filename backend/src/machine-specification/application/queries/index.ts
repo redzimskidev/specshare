@@ -1,3 +1,6 @@
+import { FindMachineSpecificationHandler } from './find-machine-specification.query';
+import { GetAllMachineSpecificationsHandler } from './get-all-machine-specifications.query';
+
 export {
   FindMachineSpecificationHandler,
   FindMachineSpecificationQuery,
@@ -6,3 +9,8 @@ export {
   GetAllMachineSpecificationsHandler,
   GetAllMachineSpecificationsQuery,
 } from './get-all-machine-specifications.query';
+
+export const QueryHandlers = [
+  FindMachineSpecificationHandler,
+  GetAllMachineSpecificationsHandler,
+];
