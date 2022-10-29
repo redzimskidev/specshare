@@ -1,11 +1,14 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
+import { GetAllMachineSpecificatSionsResponseDto } from 'src/machine-specification/interface/dtos/get-all-machine-specifications.dto';
 import { GetAllMachineSpecificationsQuery } from './get-all-machine-specifications.query';
 
 @QueryHandler(GetAllMachineSpecificationsQuery)
 export class GetAllMachineSpecificationsHandler
   implements IQueryHandler<GetAllMachineSpecificationsQuery>
 {
-  async execute(query: GetAllMachineSpecificationsQuery): Promise<any> {
+  async execute(
+    query: GetAllMachineSpecificationsQuery,
+  ): Promise<GetAllMachineSpecificatSionsResponseDto> {
     return {
       page: query.page,
       hasNext: false,

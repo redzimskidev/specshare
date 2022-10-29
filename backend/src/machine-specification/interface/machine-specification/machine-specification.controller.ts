@@ -10,13 +10,14 @@ import {
 } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { ApiResponse } from '@nestjs/swagger';
+import { FindMachineSpecificationQuery } from 'src/machine-specification/application/find-machine-specification/find-machine-specification.query';
 import { GetAllMachineSpecificationsQuery } from 'src/machine-specification/application/get-all-machine-specifications/get-all-machine-specifications.query';
 import { AddMachineSpecificationBodyDto } from '../dtos/add-machine-specification.dto';
 import { BaseMachineSpecificationDto } from '../dtos/base-machine-specification.dto';
 import { DeleteMachineSpecificationParamDto } from '../dtos/delete-machine-specification.dto';
 import {
-  FindMachineSpecificationByIdParamDto,
-  FindMachineSpecificationByIdResponseDto,
+  FindMachineSpecificationParamDto,
+  FindMachineSpecificationResponseDto,
 } from '../dtos/find-machine-specification.dto';
 import {
   GetAllMachineSpecificationsQueryDto,
@@ -88,12 +89,12 @@ export class MachineSpecificationController {
   }
 
   @Get('/:id')
-  @ApiResponse({ status: 200, type: FindMachineSpecificationByIdResponseDto })
+  @ApiResponse({ status: 200, type: FindMachineSpecificationResponseDto })
   @ApiResponse({ status: 404 })
   async find(
-    @Param() param: FindMachineSpecificationByIdParamDto,
-  ): Promise<FindMachineSpecificationByIdResponseDto> {
-    return { ...this.sampleMachineSpecification, ...{ id: param.id } };
+    @Param() param: FindMachineSpecificationParamDto,
+  ): Promise<FindMachineSpecificationResponseDto> {
+    return this.queryBus.execute(new FindMachineSpecificationQuery(param.id));
   }
 
   @Post()
