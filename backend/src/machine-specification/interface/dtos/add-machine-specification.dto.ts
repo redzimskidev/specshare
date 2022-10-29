@@ -5,3 +5,5 @@ export class AddMachineSpecificationBodyDto extends OmitType(
   BaseMachineSpecificationDto,
   ['id'] as const,
 ) {}
+
+export class AddMachineSpecificationResponseDto extends BaseMachineSpecificationDto {}

@@ -13,7 +13,11 @@ import { ApiResponse } from '@nestjs/swagger';
 import { AddMachineSpecificationCommand } from 'src/machine-specification/application/add-machine-specification/add-machine-specification.command';
 import { FindMachineSpecificationQuery } from 'src/machine-specification/application/find-machine-specification/find-machine-specification.query';
 import { GetAllMachineSpecificationsQuery } from 'src/machine-specification/application/get-all-machine-specifications/get-all-machine-specifications.query';
-import { AddMachineSpecificationBodyDto } from '../dtos/add-machine-specification.dto';
+import { UpdateMachineSpecificationCommand } from 'src/machine-specification/application/update-machine-specification/update-machine-specification.command';
+import {
+  AddMachineSpecificationBodyDto,
+  AddMachineSpecificationResponseDto,
+} from '../dtos/add-machine-specification.dto';
 import { BaseMachineSpecificationDto } from '../dtos/base-machine-specification.dto';
 import { DeleteMachineSpecificationParamDto } from '../dtos/delete-machine-specification.dto';
 import {
@@ -102,8 +106,8 @@ export class MachineSpecificationController {
   @ApiResponse({ status: 201 })
   async addMachineSpecification(
     @Body() body: AddMachineSpecificationBodyDto,
-  ): Promise<void> {
-    this.commandBus.execute(
+  ): Promise<AddMachineSpecificationResponseDto> {
+    return this.commandBus.execute(
       new AddMachineSpecificationCommand(
         body.name,
         body.type,
@@ -124,7 +128,20 @@ export class MachineSpecificationController {
     @Param() param: UpdateMachineSpecificationParamDto,
     @Body() body: UpdateMachineSpecificationBodyDto,
   ): Promise<UpdateMachineSpecificationResponseDto> {
-    return { ...body, ...{ id: param.id } };
+    return this.commandBus.execute(
+      new UpdateMachineSpecificationCommand(
+        param.id,
+        body.name,
+        body.type,
+        body.manufacturer,
+        body.model,
+        body.cpu,
+        body.gpu,
+        body.motherboard,
+        body.ramSticks,
+        body.storageDrives,
+      ),
+    );
   }
 
   @Delete('/:id')
