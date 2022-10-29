@@ -19,7 +19,6 @@ import {
   AddMachineSpecificationBodyDto,
   AddMachineSpecificationResponseDto,
 } from '../dtos/add-machine-specification.dto';
-import { BaseMachineSpecificationDto } from '../dtos/base-machine-specification.dto';
 import { DeleteMachineSpecificationParamDto } from '../dtos/delete-machine-specification.dto';
 import {
   FindMachineSpecificationParamDto,
