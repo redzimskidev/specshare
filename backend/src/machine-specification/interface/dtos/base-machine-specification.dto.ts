@@ -35,7 +35,7 @@ export class RamStickDto {
   frequency: number;
 }
 
-export class storageDriveDto {
+export class StorageDriveDto {
   @ApiProperty()
   manufacturer: string;
   @ApiProperty()
@@ -62,8 +62,8 @@ export class BaseMachineSpecificationDto {
   gpu: GpuDto;
   @ApiProperty()
   motherboard: MotherboardDto;
-  @ApiProperty()
+  @ApiProperty({ isArray: true, type: RamStickDto })
   ramSticks: RamStickDto[];
-  @ApiProperty()
-  storageDrives: storageDriveDto[];
+  @ApiProperty({ isArray: true, type: StorageDriveDto })
+  storageDrives: StorageDriveDto[];
 }
