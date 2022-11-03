@@ -1,4 +1,7 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { MachineSpecification } from 'src/machine-specification/infrastructure/persistence/machine-specification.schema';
 import { FindMachineSpecificationResponseDto } from 'src/machine-specification/interface/dtos/find-machine-specification.dto';
 
 export class FindMachineSpecificationQuery {
@@ -8,50 +11,14 @@ export class FindMachineSpecificationQuery {
 export class FindMachineSpecificationHandler
   implements IQueryHandler<FindMachineSpecificationQuery>
 {
+  constructor(
+    @InjectModel(MachineSpecification.name)
+    private model: Model<MachineSpecification>,
+  ) {}
+
   async execute(
     query: FindMachineSpecificationQuery,
   ): Promise<FindMachineSpecificationResponseDto> {
-    return {
-      id: query.id,
-      name: 'My Battlestation',
-      type: 'DIY',
-      manufacturer: '',
-      model: '',
-      cpu: {
-        manufacturer: 'AMD',
-        model: 'Ryzen 3600',
-        cores: 6,
-        frequency: 4200,
-      },
-      gpu: {
-        manufacturer: 'Nvidia',
-        model: 'RTX 3600 Ti',
-        memory: 8,
-      },
-      motherboard: {
-        manufacturer: 'MSI',
-        model: 'B350 Tomahawk',
-      },
-      ramSticks: [
-        {
-          manufacturer: 'Corsair',
-          model: 'Ballistix',
-          frequency: 3600,
-        },
-        {
-          manufacturer: 'Corsair',
-          model: 'Ballistix',
-          frequency: 3600,
-        },
-      ],
-      storageDrives: [
-        {
-          manufacturer: 'Adata',
-          model: 'SPG 8200',
-          type: 'SSD',
-          size: 512,
-        },
-      ],
-    };
+    return this.model.findById(query.id);
   }
 }

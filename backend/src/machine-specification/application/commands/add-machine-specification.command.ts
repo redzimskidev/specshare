@@ -53,7 +53,6 @@ export class AddMachineSpecificationHandler
   async execute(
     command: AddMachineSpecificationCommand,
   ): Promise<AddMachineSpecificationResponseDto> {
-    await this.model.create(command);
-    return { ...command, id: '' };
+    return this.model.create(command);
   }
 }
