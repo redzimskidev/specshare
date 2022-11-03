@@ -1,7 +1,5 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { MachineSpecification } from 'src/machine-specification/infrastructure/persistence/machine-specification.schema';
+import { MachineSpecificationRepository } from 'src/machine-specification/infrastructure/persistence/machine-specification.repository';
 import { UpdateMachineSpecificationResponseDto } from 'src/machine-specification/interface/dtos/update-machine-specification.dto';
 import {
   BaseMachineSpecificationModel,
@@ -44,16 +42,11 @@ export class UpdateMachineSpecificationCommand extends BaseMachineSpecificationM
 export class UpdateMachineSpecificationHandler
   implements ICommandHandler<UpdateMachineSpecificationCommand>
 {
-  constructor(
-    @InjectModel(MachineSpecification.name)
-    private model: Model<MachineSpecification>,
-  ) {}
+  constructor(private repository: MachineSpecificationRepository) {}
 
   async execute(
     command: UpdateMachineSpecificationCommand,
   ): Promise<UpdateMachineSpecificationResponseDto> {
-    return this.model.findOneAndUpdate({ id: command.id }, command, {
-      new: true,
-    });
+    return await this.repository.update(command);
   }
 }

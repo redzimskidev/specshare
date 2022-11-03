@@ -1,8 +1,6 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { InjectModel } from '@nestjs/mongoose';
 import { OmitType } from '@nestjs/swagger';
-import { Model } from 'mongoose';
-import { MachineSpecification } from 'src/machine-specification/infrastructure/persistence/machine-specification.schema';
+import { MachineSpecificationRepository } from 'src/machine-specification/infrastructure/persistence/machine-specification.repository';
 import { AddMachineSpecificationResponseDto } from 'src/machine-specification/interface/dtos/add-machine-specification.dto';
 import {
   BaseMachineSpecificationModel,
@@ -45,14 +43,11 @@ export class AddMachineSpecificationCommand extends OmitType(
 export class AddMachineSpecificationHandler
   implements ICommandHandler<AddMachineSpecificationCommand>
 {
-  constructor(
-    @InjectModel(MachineSpecification.name)
-    private model: Model<MachineSpecification>,
-  ) {}
+  constructor(private repository: MachineSpecificationRepository) {}
 
   async execute(
     command: AddMachineSpecificationCommand,
   ): Promise<AddMachineSpecificationResponseDto> {
-    return this.model.create(command);
+    return this.repository.create(command);
   }
 }

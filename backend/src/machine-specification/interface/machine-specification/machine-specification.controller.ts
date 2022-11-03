@@ -43,7 +43,7 @@ export class MachineSpecificationController {
 
   @Get()
   @ApiResponse({ status: 200, type: GetAllMachineSpecificatSionsResponseDto })
-  async getAllMachineSpecifications(
+  async getAll(
     @Query() query: GetAllMachineSpecificationsQueryDto,
   ): Promise<GetAllMachineSpecificatSionsResponseDto> {
     return this.queryBus.execute(

@@ -3,6 +3,7 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CommandHandlers } from './application/commands';
 import { QueryHandlers } from './application/queries';
+import { MachineSpecificationRepository } from './infrastructure/persistence/machine-specification.repository';
 import {
   MachineSpecification,
   MachineSpecificationSchema,
@@ -16,6 +17,10 @@ import { MachineSpecificationController } from './interface/machine-specificatio
     ]),
   ],
   controllers: [MachineSpecificationController],
-  providers: [...CommandHandlers, ...QueryHandlers],
+  providers: [
+    ...CommandHandlers,
+    ...QueryHandlers,
+    MachineSpecificationRepository,
+  ],
 })
 export class MachineSpecificationModule {}
