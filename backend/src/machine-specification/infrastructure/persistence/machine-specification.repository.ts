@@ -24,7 +24,7 @@ export class MachineSpecificationRepository {
   }
 
   async find(id: string): Promise<MachineSpecification | null> {
-    return this.model.findById(id);
+    return this.model.findById(id).exec();
   }
 
   async create(
