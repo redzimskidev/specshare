@@ -4,12 +4,12 @@ import { BaseMachineSpecificationDto } from './base-machine-specification.dto';
 export class GetAllMachineSpecificationsQueryDto {
   @ApiProperty({ required: false, default: 0, minimum: 0 })
   readonly page: number = 0;
-
-  @ApiProperty({ required: false, default: 10, minimum: 1, maximum: 20 })
+  @ApiProperty({ required: false, default: 10, minimum: 1, maximum: 100 })
   readonly pageSize: number = 10;
 }
 
 export class ItemInGetAllMachineSpecificationByIdResponseDto extends BaseMachineSpecificationDto {}
+
 export class GetAllMachineSpecificatSionsResponseDto {
   @ApiProperty()
   page: number;

@@ -2,8 +2,9 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class DeleteMachineSpecificationParamDto {
   @ApiProperty({
-    format: 'uuid',
-    example: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+    minLength: 24,
+    maxLength: 24,
+    example: '4cdfb11e1f3c000000007822',
   })
   readonly id: string;
 }
